@@ -9,6 +9,42 @@ We introduce a new tool, NIFF, to study the effective filter size learned by CNN
 - the study of filter sizes has to be **decoupled from other aspects** such as the network width or the number of learnable parameters
 - the **cost** of the convolution operation itself has to **remain manageable** i.e.~we can not na\"{\i}vely increase the size of the convolution kernel
 
+## Installation
+
+You can install this package directly from GitHub using pip:
+
+```bash
+pip install git+https://github.com/GeJulia/NIFF.git
+```
+
+For development installation:
+
+```bash
+git clone https://github.com/GeJulia/NIFF.git
+cd NIFF
+pip install -e .
+```
+
+### Requirements
+
+- Python >= 3.8
+- PyTorch >= 1.9.0
+- torchvision >= 0.10.0
+
+## Usage
+
+Import NIFF components in your PyTorch code:
+
+```python
+import torch_niff
+
+# Use NIFF layers as drop-in replacements for standard convolutions
+from torch_niff import FreqConv_DW_fftifft, FreqConv_full_fftifft
+
+# Or use pre-configured NIFF-based network architectures
+from torch_niff import resnet18_niff_full, mobilenet_v3_small_niff
+```
+
 ## Training and Evaluation 
 
 The training script can be found at https://github.com/facebookresearch/ConvNeXt.

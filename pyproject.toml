@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "torch-niff"
+version = "0.1.0"
+authors = [
+    {name = "Julia Grabinski", email = ""},
+    {name = "Janis Keuper", email = ""},
+    {name = "Margret Keuper", email = ""},
+]
+description = "Neural Implicit Frequency Filters (NIFF) for PyTorch - Drop-in replacements for convolution layers"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = [
+    "deep learning",
+    "neural networks",
+    "convolution",
+    "frequency domain",
+    "pytorch",
+    "machine learning",
+    "computer vision",
+]
+dependencies = [
+    "torch>=1.9.0",
+    "torchvision>=0.10.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "isort",
+]
+notebooks = [
+    "jupyter",
+    "matplotlib",
+    "numpy",
+]
+
+[project.urls]
+Homepage = "https://github.com/GeJulia/NIFF"
+Repository = "https://github.com/GeJulia/NIFF"
+Documentation = "https://github.com/GeJulia/NIFF"
+"Bug Tracker" = "https://github.com/GeJulia/NIFF/issues"
+"Paper" = "https://openreview.net/forum?id=xRy1YRcHWj"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["torch_niff*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
