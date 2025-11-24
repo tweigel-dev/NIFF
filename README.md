@@ -36,14 +36,36 @@ pip install -e .
 Import NIFF components in your PyTorch code:
 
 ```python
+import torch
 import torch_niff
+
+# Auto-detect the best available device (CUDA, MPS, CPU)
+device = torch.device("cuda" if torch.cuda.is_available() 
+                      else "mps" if torch.backends.mps.is_available() 
+                      else "cpu")
 
 # Use NIFF layers as drop-in replacements for standard convolutions
 from torch_niff import FreqConv_DW_fftifft, FreqConv_full_fftifft
 
+# NIFF layers automatically use the same device as input tensors
+model = FreqConv_DW_fftifft(planes=64)
+model = model.to(device)
+
 # Or use pre-configured NIFF-based network architectures
 from torch_niff import resnet18_niff_full, mobilenet_v3_small_niff
+
+model = resnet18_niff_full(num_classes=1000)
+model = model.to(device)
 ```
+
+### Device Support
+
+NIFF now supports all PyTorch devices:
+- **CUDA** (NVIDIA GPUs)
+- **MPS** (Apple Silicon GPUs - M1/M2/M3)
+- **CPU** (fallback for any system)
+
+The device parameter in NIFF layers is optional. If not specified, NIFF automatically uses the same device as the input tensors, making it seamless to work across different hardware platforms.
 
 ## Training and Evaluation 
 

@@ -35,9 +35,10 @@ class FreqConv_DW_fftifft(nn.Module):
     
     Args:
         planes (int): Number of input channels.
+        device (str or torch.device, optional): Device to use. If None, uses same device as input.
     '''
     
-    def __init__(self, planes, device='cuda'): 
+    def __init__(self, planes, device=None): 
         super(FreqConv_DW_fftifft, self).__init__()
         self.device = device
         self.mlp_imag = MLP_small(planes)
@@ -45,13 +46,14 @@ class FreqConv_DW_fftifft(nn.Module):
         self.mask = None
       
     def forward(self, x):
+        device = self.device if self.device is not None else x.device
         if self.mask == None:
             self.mask = torch.cat([
             torch.arange(-(x.size(2)/2), (x.size(2)/2), requires_grad=True)[None, :].repeat(x.size(3), 1).unsqueeze(0),
-            torch.arange(-(x.size(3)/2), (x.size(3)/2), requires_grad=True)[:, None].repeat(1, x.size(2)).unsqueeze(0)], dim=0).to(self.device)
+            torch.arange(-(x.size(3)/2), (x.size(3)/2), requires_grad=True)[:, None].repeat(1, x.size(2)).unsqueeze(0)], dim=0).to(device)
         x = torch.fft.fftshift(torch.fft.fft2(x))
         weights = torch.complex(self.mlp_real(self.mask), self.mlp_imag(self.mask))
-        x = weights.cuda()*x
+        x = weights.to(device)*x
         return torch.fft.ifft2(torch.fft.ifftshift(x)).real 
     
     
@@ -61,9 +63,10 @@ class FreqConv_DW_fft(nn.Module):
     
     Args:
         planes (int): Number of input channels.
+        device (str or torch.device, optional): Device to use. If None, uses same device as input.
     '''
     
-    def __init__(self, planes, device='cuda'): 
+    def __init__(self, planes, device=None): 
         super(FreqConv_DW_fft, self).__init__()
         self.device = device
         self.mlp_imag = MLP_small(planes)
@@ -71,13 +74,14 @@ class FreqConv_DW_fft(nn.Module):
         self.mask = None
     
     def forward(self, x):
+        device = self.device if self.device is not None else x.device
         if self.mask == None:
             self.mask = torch.cat([
             torch.arange(-(x.size(2)/2), (x.size(2)/2), requires_grad=True)[None, :].repeat(x.size(3), 1).unsqueeze(0),
-            torch.arange(-(x.size(3)/2), (x.size(3)/2), requires_grad=True)[:, None].repeat(1, x.size(2)).unsqueeze(0)], dim=0).to(self.device)
+            torch.arange(-(x.size(3)/2), (x.size(3)/2), requires_grad=True)[:, None].repeat(1, x.size(2)).unsqueeze(0)], dim=0).to(device)
         x = torch.fft.fftshift(torch.fft.fft2(x))
         weights = torch.complex(self.mlp_real(self.mask), self.mlp_imag(self.mask))
-        x = weights.to(self.device)*x
+        x = weights.to(device)*x
         return x
     
     
@@ -87,9 +91,10 @@ class FreqConv_DW_ifft(nn.Module):
     
     Args:
         planes (int): Number of input channels.
+        device (str or torch.device, optional): Device to use. If None, uses same device as input.
     '''
     
-    def __init__(self, planes, device='cuda'): 
+    def __init__(self, planes, device=None): 
         super(FreqConv_DW_ifft, self).__init__()
         self.device = device
         self.mlp_imag = MLP_small(planes)
@@ -97,12 +102,13 @@ class FreqConv_DW_ifft(nn.Module):
         self.mask = None
       
     def forward(self, x):
+        device = self.device if self.device is not None else x.device
         if self.mask == None:
             self.mask = torch.cat([
             torch.arange(-(x.size(2)/2), (x.size(2)/2), requires_grad=True)[None, :].repeat(x.size(3), 1).unsqueeze(0),
-            torch.arange(-(x.size(3)/2), (x.size(3)/2), requires_grad=True)[:, None].repeat(1, x.size(2)).unsqueeze(0)], dim=0).to(self.device)
+            torch.arange(-(x.size(3)/2), (x.size(3)/2), requires_grad=True)[:, None].repeat(1, x.size(2)).unsqueeze(0)], dim=0).to(device)
         weights = torch.complex(self.mlp_real(self.mask), self.mlp_imag(self.mask))
-        x = weights.cuda()*x
+        x = weights.to(device)*x
         return torch.fft.ifft2(torch.fft.ifftshift(x)).real 
     
 

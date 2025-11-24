@@ -35,9 +35,10 @@ class FreqConv_full_fftifft(nn.Module):
     Args:
         in_planes (int): Number of input channels.
         out_planes (int): Number of output channels.
+        device (str or torch.device, optional): Device to use. If None, uses same device as input.
     '''
     
-    def __init__(self, in_planes, out_planes, device='cuda'):
+    def __init__(self, in_planes, out_planes, device=None):
         super(FreqConv_full_fftifft, self).__init__()
         self.device = device
         self.in_planes = in_planes
@@ -47,10 +48,11 @@ class FreqConv_full_fftifft(nn.Module):
         self.mask = None
     
     def forward(self, x):
+        device = self.device if self.device is not None else x.device
         if self.mask == None:
             self.mask = torch.cat([
             torch.arange(-(x.size(2)/2), (x.size(2)/2), requires_grad=True)[None, :].repeat(x.size(3), 1).unsqueeze(0),
-            torch.arange(-(x.size(3)/2), (x.size(3)/2), requires_grad=True)[:, None].repeat(1, x.size(2)).unsqueeze(0)], dim=0).to(self.device)
+            torch.arange(-(x.size(3)/2), (x.size(3)/2), requires_grad=True)[:, None].repeat(1, x.size(2)).unsqueeze(0)], dim=0).to(device)
         x = torch.fft.fftshift(torch.fft.fft2(x))
         weights = torch.complex(self.mlp_real(self.mask), self.mlp_imag(self.mask)).reshape(self.in_planes,self.out_planes,x.size(2),x.size(3))
         x = torch.einsum('bihw,iohw->bohw', [x, weights])
@@ -64,9 +66,10 @@ class FreqConv_full_fft(nn.Module):
     Args:
         in_planes (int): Number of input channels.
         out_planes (int): Number of output channels.
+        device (str or torch.device, optional): Device to use. If None, uses same device as input.
     '''
     
-    def __init__(self, in_planes, out_planes, device='cuda'):
+    def __init__(self, in_planes, out_planes, device=None):
         super(FreqConv_full_fft, self).__init__()
         self.device = device
         self.in_planes = in_planes
@@ -76,10 +79,11 @@ class FreqConv_full_fft(nn.Module):
         self.mask = None
     
     def forward(self, x):
+        device = self.device if self.device is not None else x.device
         if self.mask == None:
             self.mask = torch.cat([
             torch.arange(-(x.size(2)/2), (x.size(2)/2), requires_grad=True)[None, :].repeat(x.size(3), 1).unsqueeze(0),
-            torch.arange(-(x.size(3)/2), (x.size(3)/2), requires_grad=True)[:, None].repeat(1, x.size(2)).unsqueeze(0)], dim=0).to(self.device)
+            torch.arange(-(x.size(3)/2), (x.size(3)/2), requires_grad=True)[:, None].repeat(1, x.size(2)).unsqueeze(0)], dim=0).to(device)
         x = torch.fft.fftshift(torch.fft.fft2(x))
         weights = torch.complex(self.mlp_real(self.mask), self.mlp_imag(self.mask)).reshape(self.in_planes,self.out_planes,x.size(2),x.size(3))
         x = torch.einsum('bihw,iohw->bohw', [x, weights])
@@ -93,9 +97,10 @@ class FreqConv_full_ifft(nn.Module):
     Args:
         in_planes (int): Number of input channels.
         out_planes (int): Number of output channels.
+        device (str or torch.device, optional): Device to use. If None, uses same device as input.
     '''
     
-    def __init__(self, in_planes, out_planes, device='cuda'):
+    def __init__(self, in_planes, out_planes, device=None):
         super(FreqConv_full_ifft, self).__init__()
         self.device = device
         self.in_planes = in_planes
@@ -105,10 +110,11 @@ class FreqConv_full_ifft(nn.Module):
         self.mask = None
     
     def forward(self, x):
+        device = self.device if self.device is not None else x.device
         if self.mask == None:
             self.mask = torch.cat([
             torch.arange(-(x.size(2)/2), (x.size(2)/2), requires_grad=True)[None, :].repeat(x.size(3), 1).unsqueeze(0),
-            torch.arange(-(x.size(3)/2), (x.size(3)/2), requires_grad=True)[:, None].repeat(1, x.size(2)).unsqueeze(0)], dim=0).to(self.device)
+            torch.arange(-(x.size(3)/2), (x.size(3)/2), requires_grad=True)[:, None].repeat(1, x.size(2)).unsqueeze(0)], dim=0).to(device)
         weights = torch.complex(self.mlp_real(self.mask), self.mlp_imag(self.mask)).reshape(self.in_planes,self.out_planes,x.size(2),x.size(3))
         x = torch.einsum('bihw,iohw->bohw', [x, weights])
         return torch.fft.ifft2(torch.fft.ifftshift(x)).real
