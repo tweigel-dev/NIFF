@@ -9,20 +9,9 @@ import torch.nn.functional as F
 import torch.utils.checkpoint as cp
 from torch import Tensor
 
-from niff_small import FreqConv_1x1_fftifft
-from niff_full import FreqConv_full_fftifft
+from torch_niff.niff_small import FreqConv_1x1_fftifft
+from torch_niff.niff_full import FreqConv_full_fftifft
 
-__all__ = [
-    "DenseNet",
-    "DenseNet121_Weights",
-    "DenseNet161_Weights",
-    "DenseNet169_Weights",
-    "DenseNet201_Weights",
-    "densenet121",
-    "densenet161",
-    "densenet169",
-    "densenet201",
-]
 
 
 class _DenseLayer(nn.Module):

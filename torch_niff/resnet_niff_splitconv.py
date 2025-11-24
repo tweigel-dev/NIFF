@@ -5,32 +5,9 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 
-from niff_small import FreqConv_DW_fftifft, FreqConv_DW_fft, FreqConv_1x1_fftifft, FreqConv_1x1_ifft
+from torch_niff.niff_small import FreqConv_DW_fftifft, FreqConv_DW_fft, FreqConv_1x1_fftifft, FreqConv_1x1_ifft
 
 
-__all__ = [
-    "ResNet",
-    "ResNet18_Weights",
-    "ResNet34_Weights",
-    "ResNet50_Weights",
-    "ResNet101_Weights",
-    "ResNet152_Weights",
-    "ResNeXt50_32X4D_Weights",
-    "ResNeXt101_32X8D_Weights",
-    "ResNeXt101_64X4D_Weights",
-    "Wide_ResNet50_2_Weights",
-    "Wide_ResNet101_2_Weights",
-    "resnet18",
-    "resnet34",
-    "resnet50",
-    "resnet101",
-    "resnet152",
-    "resnext50_32x4d",
-    "resnext101_32x8d",
-    "resnext101_64x4d",
-    "wide_resnet50_2",
-    "wide_resnet101_2",
-]
 
 
 def conv3x3(in_planes: int, out_planes: int, stride: int = 1, groups: int = 1, dilation: int = 1) -> nn.Conv2d:

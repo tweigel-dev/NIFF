@@ -4,7 +4,7 @@ from typing import Callable, List, Optional, Sequence, Tuple, Union
 import torch
 from torch import Tensor
 
-from niff_small import FreqConv_1x1_fftifft, FreqConv_1x1_ifft, FreqConv_DW_fftifft, FreqConv_DW_fft
+from torch_niff.niff_small import FreqConv_1x1_fftifft, FreqConv_1x1_ifft, FreqConv_DW_fftifft, FreqConv_DW_fft
 
 def _make_ntuple(x, n: int):
     """

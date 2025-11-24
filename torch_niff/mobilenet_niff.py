@@ -4,8 +4,8 @@ from typing import Any, Callable, List, Optional
 import torch
 from torch import nn, Tensor
 
-from misc_niff import Conv2dNormActivation
-from niff_small import FreqConv_1x1_fftifft
+from torch_niff.misc_niff import Conv2dNormActivation
+from torch_niff.niff_small import FreqConv_1x1_fftifft
 
 
 def _make_divisible(v: float, divisor: int, min_value: Optional[int] = None) -> int:
