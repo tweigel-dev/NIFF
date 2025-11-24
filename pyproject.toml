@@ -6,9 +6,9 @@ build-backend = "setuptools.build_meta"
 name = "torch-niff"
 version = "0.1.0"
 authors = [
-    {name = "Julia Grabinski", email = ""},
-    {name = "Janis Keuper", email = ""},
-    {name = "Margret Keuper", email = ""},
+    {name = "Julia Grabinski"},
+    {name = "Janis Keuper" },
+    {name = "Margret Keuper"},
 ]
 description = "Neural Implicit Frequency Filters (NIFF) for PyTorch - Drop-in replacements for convolution layers"
 readme = "README.md"
